@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="CTFLearner Test Suite">
+    <listeners>
+        <listener class-name="io.qameta.allure.testng.AllureTestNg"/>
+        <listener class-name="listeners.TestListener"/>
+    </listeners>
+    
+    <test name="Challenge Tests">
+        <classes>
+            <class name="tests.CreateChallengeTest"/>
+        </classes>
+    </test>
+</suite> 

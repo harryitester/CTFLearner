@@ -1,0 +1,45 @@
+pipeline {
+    agent any
+    
+    environment {
+        MAVEN_HOME = tool 'Maven'
+        PATH = "${MAVEN_HOME}/bin:${env.PATH}"
+    }
+    
+    stages {
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+        
+        stage('Build') {
+            steps {
+                sh 'mvn clean install'
+            }
+        }
+        
+        stage('Test Execution') {
+            steps {
+                sh 'mvn test'
+            }
+            post {
+                always {
+                    allure([
+                        includeProperties: false,
+                        jdk: '',
+                        properties: [],
+                        reportBuildPolicy: 'ALWAYS',
+                        results: [[path: 'target/allure-results']]
+                    ])
+                }
+            }
+        }
+    }
+    
+    post {
+        always {
+            cleanWs()
+        }
+    }
+}
